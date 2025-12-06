@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Notes App</title>
+</head>
+<body>
+  <h2>My Notes</h2>
+  <textarea id="notesArea" rows="10" cols="50" placeholder="Enter your notes here..."></textarea>
+  <br><br>
+  <button id="saveBtn">Save Notes</button>
+  <button id="loadBtn">Load Notes</button>
+  <button id="clearBtn">Clear Notes</button>
+
+  <script>
+    const notesArea = document.getElementById("notesArea");
+    const saveBtn = document.getElementById("saveBtn");
+    const loadBtn = document.getElementById("loadBtn");
+    const clearBtn = document.getElementById("clearBtn");
+
+    window.addEventListener("load", () => {
+      const savedNotes = localStorage.getItem("userNotes");
+      if (savedNotes) {
+        notesArea.value = savedNotes;
+      }
+    });
+
+    saveBtn.addEventListener("click", () => {
+      const notes = notesArea.value.trim();
+      if (notes === "") {
+        alert("Cannot save empty notes!");
+        return;
+      }
+      localStorage.setItem("userNotes", notes);
+      alert("Notes saved successfully!");
+    });
+
+    loadBtn.addEventListener("click", () => {
+      const savedNotes = localStorage.getItem("userNotes");
+      if (savedNotes) {
+        notesArea.value = savedNotes;
+      } else {
+        alert("No notes found in storage.");
+      }
+    });
+
+    clearBtn.addEventListener("click", () => {
+      const savedNotes = localStorage.getItem("userNotes");
+      if (!savedNotes && notesArea.value.trim() === "") {
+        alert("No notes to clear!");
+        return;
+      }
+      localStorage.removeItem("userNotes");
+      notesArea.value = "";
+      alert("Notes cleared!");
+    });
+  </script>
+</body>
+</html>
